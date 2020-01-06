@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import TaskAddingBar from './components/TaskAddingBar';
+import TaskList from './components/TaskList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      toDoList: ['task1', 'task2', 'task3']
+    }
+  }
+
+  addTask(newTask) {
+    const { toDoList } = this.state
+    toDoList.unshift(newTask)
+    this.setState({ toDoList })
+  }
+
+  removeTask(taskIndex) {
+    const { toDoList } = this.state
+    toDoList.splice(taskIndex,1)
+    console.log(`deleteTask: ${toDoList}`)
+    this.setState({toDoList})
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>To Do List</h1>
+        <TaskAddingBar addTask={this.addTask.bind(this)} count={this.state.toDoList.length} />
+        <TaskList removeTask={this.removeTask.bind(this)} toDoList={this.state.toDoList} />
+      </div>
+    )
+  }
 }
 
 export default App;
