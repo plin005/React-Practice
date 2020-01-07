@@ -2,34 +2,33 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { ToDoSection, ToDoList, ToDoItem } from './style'
 
-class TaskList extends React.Component {
-    static propTypes = {
-        toDoList: PropTypes.array.isRequired,
-        removeTask: PropTypes.func.isRequired
-    } 
+const TaskList = (props) => {
+    const { toDoList } = props
 
-    removeItem (itemIndex) {
-        this.props.removeTask(itemIndex);
+    const removeItem = (itemIndex) => {
+        props.removeTask(itemIndex)
     }
 
-    render() {
-        const { toDoList } = this.props
-        return (
-            <ToDoSection>
-                <ToDoList>
-                    {
-                        toDoList.map(
-                            (toDoItem, itemIndex) =>
-                                <ToDoItem key={itemIndex} onClick={this.removeItem.bind(this,itemIndex)} >
-                                    <span>{toDoItem}</span>
-                                </ToDoItem>
-                        )
-                    }
-                </ToDoList>
-            </ToDoSection>
-        )
-    }
+    console.log(`TaskList ......${toDoList}`)
+    return (
+        <ToDoSection>
+            <ToDoList>
+                {
+                    toDoList.map(
+                        (toDoItem, itemIndex) =>
+                            <ToDoItem key={itemIndex} onClick={removeItem} >
+                                <span>{toDoItem}</span>
+                            </ToDoItem>
+                    )
+                }
+            </ToDoList>
+        </ToDoSection>
+    )
 }
 
+TaskList.propTypes = {
+    toDoList: PropTypes.array.isRequired,
+    removeTask: PropTypes.func.isRequired
+} 
 
 export default TaskList

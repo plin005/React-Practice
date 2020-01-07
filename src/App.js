@@ -1,38 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TaskAddingBar from './components/TaskAddingBar';
 import TaskList from './components/TaskList'
 
-class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      toDoList: ['task1', 'task2', 'task3']
-    }
+const App = () => {
+  const [toDoList, setToDoList] = useState(['task1', 'task2', 'task3']);
+
+  const addTask = (newTask) => {
+    const currentToDoList = toDoList
+    currentToDoList.unshift(newTask)
+    setToDoList([...currentToDoList])
+  }
+  
+  const removeTask = (taskIndex) => {
+    const currentToDoList = toDoList  
+    currentToDoList.splice(taskIndex, 1)
+    setToDoList([...currentToDoList])
   }
 
-  addTask(newTask) {
-    const { toDoList } = this.state
-    toDoList.unshift(newTask)
-    this.setState({ toDoList })
-  }
-
-  removeTask(taskIndex) {
-    const { toDoList } = this.state
-    toDoList.splice(taskIndex,1)
-    console.log(`deleteTask: ${toDoList}`)
-    this.setState({toDoList})
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <h1>To Do List</h1>
-        <TaskAddingBar addTask={this.addTask.bind(this)} count={this.state.toDoList.length} />
-        <TaskList removeTask={this.removeTask.bind(this)} toDoList={this.state.toDoList} />
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+​      <h1>To Do List</h1>
+​      <TaskAddingBar addTask={addTask} count={toDoList.length} />
+​      <TaskList removeTask={removeTask} toDoList={toDoList} />
+​    </div>
+  )
 }
 
 export default App;
